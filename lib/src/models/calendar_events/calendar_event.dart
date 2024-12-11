@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kalender/src/extensions.dart';
+import 'package:kalender/src/models/calendar_events/recurrence.dart';
 
 /// A class representing a object that can be displayed by the calendar.
 ///
@@ -10,18 +11,41 @@ class CalendarEvent<T extends Object?> {
   /// The data of the [CalendarEvent].
   T? data;
 
+  /// How or if this event recurs.
+  final Recurrence recurrence;
+
   /// The [DateTimeRange] of the [CalendarEvent].
   final DateTimeRange _dateTimeRange;
-  DateTimeRange get dateTimeRange => _dateTimeRange;
-
-  /// The [DateTimeRange] of the [CalendarEvent] in the [DateTime.utc] format.
-  DateTimeRange get _dateTimeRangeAsUtc => _dateTimeRange.asUtc;
 
   /// Whether this [CalendarEvent] can be modified.
-  bool canModify;
+  final bool canModify;
 
-  /// The id of the [CalendarEvent].
-  /// Do not set this value manually as this is set by the [EventsController].
+  CalendarEvent({
+    required DateTimeRange dateTimeRange,
+    this.recurrence = const RecurNone(),
+    this.data,
+    this.canModify = true,
+  }) : _dateTimeRange = dateTimeRange;
+
+  CalendarEvent.fromDuration({
+    required DateTime start,
+    required Duration duration,
+    this.recurrence = const RecurNone(),
+    this.data,
+    this.canModify = true,
+  }) : _dateTimeRange = DateTimeRange(start: start, end: start.asUtc.add(duration).asLocal);
+
+  /// The unique id is a reference to the original event added to the [EventsController].
+  int _uniqueId = -1;
+  int get uniqueId => _uniqueId;
+  set uniqueId(int value) {
+    if (_uniqueId != -1) return;
+    _uniqueId = value;
+  }
+
+  /// The id of the [CalendarEvent] is used as a reference to a specific event that is rendered by the [CalendarView].
+  ///
+  /// The original [CalendarEvent] might be duplicated with different [id]'s based on the [recurrence].
   int _id = -1;
   int get id => _id;
   set id(int value) {
@@ -29,11 +53,11 @@ class CalendarEvent<T extends Object?> {
     _id = value;
   }
 
-  CalendarEvent({
-    required DateTimeRange dateTimeRange,
-    this.data,
-    this.canModify = true,
-  }) : _dateTimeRange = dateTimeRange;
+  /// The [DateTimeRange] of the [CalendarEvent].
+  DateTimeRange get dateTimeRange => _dateTimeRange;
+
+  /// The [DateTimeRange] of the [CalendarEvent] in the [DateTime.utc] format.
+  DateTimeRange get _dateTimeRangeAsUtc => _dateTimeRange.asUtc;
 
   /// The start [DateTime] of the [CalendarEvent].
   DateTime get start => dateTimeRange.start.asLocal;
@@ -92,18 +116,16 @@ class CalendarEvent<T extends Object?> {
   }
 
   /// Copy the [CalendarEvent] with the new values.
-  CalendarEvent<T> copyWith({
-    DateTimeRange? dateTimeRange,
-    T? data,
-  }) {
+  CalendarEvent<T> copyWith({DateTimeRange? dateTimeRange, T? data, Recurrence? recurrence}) {
     return CalendarEvent<T>(
       data: data ?? this.data,
       dateTimeRange: dateTimeRange ?? this.dateTimeRange,
+      recurrence: recurrence ?? this.recurrence,
     );
   }
 
   @override
   String toString() {
-    return 'id: $id, data: $data, start: $start, end: $end';
+    return 'id: $uniqueId, data: $data, start: $start, end: $end';
   }
 }

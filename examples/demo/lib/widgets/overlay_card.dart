@@ -132,6 +132,11 @@ class _OverlayCardState extends State<OverlayCard> {
                   ),
                 ),
               ),
+              ListTile(
+                contentPadding: contentPadding,
+                leading: const Icon(Icons.timelapse_outlined),
+                title: Text(event.recurrence.runtimeType.toString()),
+              ),
             ],
           ),
         ),

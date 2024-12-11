@@ -153,7 +153,7 @@ class _DayEventsWidgetState<T extends Object?> extends State<DayEventsWidget<T>>
             final events = visibleEvents.toList();
 
             // Find the index of the selected event.
-            final index = visibleEvents.indexWhere((e) => e.id == widget.controller.selectedEventId);
+            final index = visibleEvents.indexWhere((e) => e.uniqueId == widget.controller.selectedEventId);
             if (index != -1) {
               // If it exists override it with the selectedEvent.
               events[index] = event;
@@ -170,7 +170,7 @@ class _DayEventsWidgetState<T extends Object?> extends State<DayEventsWidget<T>>
                 (item) {
                   final event = item.$2;
                   final drawTile =
-                      dropTarget != null && (event.id == -1 || event.id == widget.controller.selectedEventId);
+                      dropTarget != null && (event.uniqueId == -1 || event.uniqueId == widget.controller.selectedEventId);
 
                   return LayoutId(
                     id: item.$1,

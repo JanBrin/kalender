@@ -48,7 +48,7 @@ class CalendarController<T extends Object?> extends ChangeNotifier with Calendar
   /// [internal] leave false if not called from within the package.
   void selectEvent(CalendarEvent<T> event, {bool internal = false}) {
     selectedEvent.value = event;
-    _selectedEventId = event.id;
+    _selectedEventId = event.uniqueId;
     _internalFocus = internal;
   }
 

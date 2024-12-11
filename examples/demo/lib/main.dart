@@ -86,6 +86,13 @@ class _HomePageState extends State<HomePage> with CalendarOverlay {
   @override
   void initState() {
     super.initState();
+    final now = DateTime.now();
+    eventsController.addEvent(
+      CalendarEvent(
+        dateTimeRange: DateTimeRange(start: now, end: now.add(const Duration(hours: 1))),
+        recurrence: RecurDaily(DateTimeRange(start: now.startOfMonth, end: now.endOfMonth)),
+      ),
+    );
   }
 
   @override

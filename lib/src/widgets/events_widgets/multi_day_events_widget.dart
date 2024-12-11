@@ -102,14 +102,14 @@ class MultiDayEventWidget<T extends Object?> extends StatelessWidget {
             if (!event.occursDuringDateTimeRange(visibleDateTimeRange)) return const SizedBox();
 
             final events = sortedEvents.toList()
-              ..removeWhere((e) => e.id == controller.selectedEventId)
+              ..removeWhere((e) => e.uniqueId == controller.selectedEventId)
               ..add(event);
 
             final children = events.indexed.map((item) {
               final (id, event) = item;
               return LayoutId(
                 id: id,
-                child: event.id == -1 || event.id == controller.selectedEventId
+                child: event.uniqueId == -1 || event.uniqueId == controller.selectedEventId
                     ? tileComponents.dropTargetTile?.call(event) ?? const SizedBox()
                     : const SizedBox(),
               );

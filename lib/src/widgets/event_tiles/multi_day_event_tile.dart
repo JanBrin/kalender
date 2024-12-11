@@ -61,7 +61,7 @@ class MultiDayEventTile<T extends Object?> extends EventTile<T> {
 
     final tile = tileBuilder.call(event, localDateTimeRange);
     final tileWhenDragging = tileWhenDraggingBuilder?.call(event);
-    final isDragging = controller.selectedEventId == event.id;
+    final isDragging = controller.selectedEventId == event.uniqueId;
     late final draggableTile = isMobileDevice
         ? LongPressDraggable<Reschedule<T>>(
             data: rescheduleEvent,

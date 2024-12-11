@@ -19,7 +19,7 @@ mixin CalendarOverlay {
 
   Widget buildOverlay(BuildContext overlayContext) {
     var position = selectedRenderBox!.localToGlobal(Offset.zero);
-    const height = 180.0;
+    const height = 300.0;
     const width = 300.0;
 
     final size = MediaQuery.sizeOf(context);
