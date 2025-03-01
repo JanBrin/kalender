@@ -11,7 +11,7 @@ import 'package:kalender/src/widgets/draggable/multi_day_draggable.dart';
 /// The month body's content:
 ///   - Static content [MonthGrid].
 ///   - Dynamic content such as the [PageView] which renders [MultiDayEventWidget], [MultiDayDragTarget], [MultiDayEventDraggableWidgets].
-class MonthBody<T extends Object?> extends StatelessWidget {
+class MonthBody<T extends CalendarEvent<T>> extends StatelessWidget {
   /// The [EventsController] that will be used by the [MonthBody].
   final EventsController<T>? eventsController;
 

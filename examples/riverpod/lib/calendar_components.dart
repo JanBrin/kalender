@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kalender/kalender.dart';
 import 'package:riverpod_example/main.dart';
 
-TileComponents tileComponents(BuildContext context, {bool body = true}) {
+TileComponents<Event> tileComponents(BuildContext context, {bool body = true}) {
   final color = Theme.of(context).colorScheme.primaryContainer;
   final radius = BorderRadius.circular(8);
   return TileComponents(

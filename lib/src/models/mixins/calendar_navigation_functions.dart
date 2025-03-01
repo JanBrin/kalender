@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kalender/src/models/calendar_events/calendar_event.dart';
 
 mixin CalendarNavigationFunctions<T> {
   /// Jump to the given [DateTime].
@@ -76,7 +75,7 @@ mixin CalendarNavigationFunctions<T> {
   ///
   /// [centerEvent] center the event on the viewport.
   Future<void> animateToEvent(
-    CalendarEvent<T> event, {
+    T event, {
     Duration? pageDuration,
     Curve? pageCurve,
     Duration? scrollDuration,

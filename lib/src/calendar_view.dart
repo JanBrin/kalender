@@ -3,7 +3,7 @@ import 'package:kalender/kalender.dart';
 import 'package:kalender/src/layout_delegates/calendar_layout_delegate.dart';
 import 'package:kalender/src/models/providers/calendar_provider.dart';
 
-class CalendarView<T extends Object?> extends StatefulWidget {
+class CalendarView<T extends CalendarEvent<T>> extends StatefulWidget {
   /// The [EventsController] that will be used to populate the events in the calendar view.
   final EventsController<T> eventsController;
 
@@ -47,7 +47,7 @@ class CalendarView<T extends Object?> extends StatefulWidget {
   State<CalendarView<T>> createState() => _CalendarViewState<T>();
 }
 
-class _CalendarViewState<T> extends State<CalendarView<T>> {
+class _CalendarViewState<T extends CalendarEvent<T>> extends State<CalendarView<T>> {
   /// The [ViewController] that will be used by the children of the [CalendarView].
   late ViewController<T> _viewController;
 

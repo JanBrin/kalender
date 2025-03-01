@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
 
-class CalendarProvider<T extends Object?> extends InheritedWidget {
+class CalendarProvider<T extends CalendarEvent<T>> extends InheritedWidget {
   /// The [EventsController] that will be used by the Calendar.
   final EventsController<T> eventsController;
 
@@ -33,11 +33,11 @@ class CalendarProvider<T extends Object?> extends InheritedWidget {
     super.key,
   });
 
-  static CalendarProvider<T>? maybeOf<T>(BuildContext context) {
+  static CalendarProvider<T>? maybeOf<T extends CalendarEvent<T>>(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<CalendarProvider<T>>();
   }
 
-  static CalendarProvider<T> of<T>(BuildContext context) {
+  static CalendarProvider<T> of<T extends CalendarEvent<T>>(BuildContext context) {
     final result = maybeOf<T>(context);
     assert(result != null, 'No CalendarProvider of <$T> found.');
     return result!;

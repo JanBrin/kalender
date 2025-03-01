@@ -20,9 +20,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class Event extends CalendarEvent<Event> {
+  Event({required super.dateTimeRange});
+
+  @override
+  bool get canModify => true;
+
+  @override
+  Event copyWith({DateTimeRange? dateTimeRange}) {
+    return Event(dateTimeRange: dateTimeRange ?? this.dateTimeRange);
+  }
+}
+
 /// Provider for the calendar view.
 final kalenderView = ChangeNotifierProvider<KalenderView>((ref) => KalenderView());
-final eventsProvider = ChangeNotifierProvider<EventsController>((ref) => EventsController());
+final eventsProvider = ChangeNotifierProvider<EventsController<Event>>((ref) => EventsController());
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -33,13 +45,13 @@ class HomeScreen extends ConsumerWidget {
     final view = ref.watch(kalenderView);
 
     return Scaffold(
-      body: CalendarView(
+      body: CalendarView<Event>(
         eventsController: eventsController,
         calendarController: view.controller,
         viewConfiguration: view.viewConfiguration,
         callbacks: CalendarCallbacks(
           onEventTapped: (event, renderBox) => view.controller.selectEvent(event),
-          onEventCreate: (event) => event,
+          onEventCreate: (dateTimeRange) => Event(dateTimeRange: dateTimeRange),
           onEventCreated: (event) => eventsController.addEvent(event),
         ),
         header: Material(
@@ -49,11 +61,11 @@ class HomeScreen extends ConsumerWidget {
           child: Column(
             children: [
               CalendarToolBar(),
-              CalendarHeader(multiDayTileComponents: tileComponents(context, body: false)),
+              CalendarHeader<Event>(multiDayTileComponents: tileComponents(context, body: false)),
             ],
           ),
         ),
-        body: CalendarBody(
+        body: CalendarBody<Event>(
           multiDayTileComponents: tileComponents(context),
           monthTileComponents: tileComponents(context, body: false),
           multiDayBodyConfiguration: MultiDayBodyConfiguration(showMultiDayEvents: false),
@@ -68,7 +80,7 @@ class KalenderView with ChangeNotifier {
   KalenderView();
 
   /// The controller for the view.
-  final controller = CalendarController();
+  final controller = CalendarController<Event>();
 
   /// The viewConfiguration to display.
   late var _viewConfiguration = viewConfigurations[0];

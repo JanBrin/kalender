@@ -71,14 +71,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   late final _calendarCallbacks = CalendarCallbacks<Event>(
     onEventTapped: (event, renderBox) => _createOverlay(event, renderBox),
-    onEventCreate: (event) => event.copyWith(data: Event(title: 'New Event')),
+    onEventCreate: (dateTimeRange) => Event(title: 'New Event', dateTimeRange: dateTimeRange),
     onEventCreated: (event) => eventsController.addEvent(event),
   );
 
   ViewType _type = ViewType.single;
 
   final _portalController = OverlayPortalController();
-  CalendarEvent<Event>? selectedEvent;
+  Event? selectedEvent;
   RenderBox? selectedRenderBox;
 
   @override
@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _createOverlay(CalendarEvent<Event> event, RenderBox renderBox) {
+  void _createOverlay(Event event, RenderBox renderBox) {
     selectedEvent = event;
     selectedRenderBox = renderBox;
     _portalController.show();

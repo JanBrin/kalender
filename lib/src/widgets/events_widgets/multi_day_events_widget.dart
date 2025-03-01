@@ -17,7 +17,7 @@ import 'package:kalender/src/widgets/internal_components/pass_through_pointer.da
 /// * Note: When a event is being modified by the user it renders that event in a separate [CustomMultiChildLayout],
 ///         This is somewhat expensive computationally as it lays out all the events again to determine the position
 ///         of the event being modified. See todo for a possible solution.
-class MultiDayEventWidget<T extends Object?> extends StatelessWidget {
+class MultiDayEventWidget<T extends CalendarEvent<T>> extends StatelessWidget {
   final EventsController<T> eventsController;
   final CalendarController<T> controller;
 
@@ -46,7 +46,7 @@ class MultiDayEventWidget<T extends Object?> extends StatelessWidget {
     required this.layoutStrategy,
   });
 
-  ValueNotifier<Set<CalendarEvent<T>>> get visibleEventsNotifier => controller.visibleEvents;
+  ValueNotifier<Set<T>> get visibleEventsNotifier => controller.visibleEvents;
 
   @override
   Widget build(BuildContext context) {

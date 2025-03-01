@@ -1,7 +1,7 @@
 import 'package:kalender/kalender.dart';
 
 /// A mixin that adds snap points to a class.
-mixin SnapPoints {
+mixin SnapPoints<T extends CalendarEvent<T>> {
   /// A list of possible [DateTime] snap points that the event can snap to.
   final List<DateTime> _snapPoints = [];
 
@@ -18,7 +18,7 @@ mixin SnapPoints {
   }
 
   /// Update the snap points from the [events].
-  void addEventSnapPoints(Set<CalendarEvent> events) {
+  void addEventSnapPoints(Set<CalendarEvent<T>> events) {
     // Add the start and end of each event to the snap points.
     for (final event in events) {
       _snapPoints.addAll([event.startAsUtc, event.endAsUtc]);

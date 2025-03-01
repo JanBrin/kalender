@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
 
-abstract class NewDraggableWidget<T extends Object?> extends StatelessWidget {
+abstract class NewDraggableWidget<T extends CalendarEvent<T>> extends StatelessWidget {
   final CalendarController<T> controller;
   final CalendarCallbacks<T>? callbacks;
 
@@ -17,8 +17,8 @@ abstract class NewDraggableWidget<T extends Object?> extends StatelessWidget {
   /// Create the new event and select it where needed.
   void createNewEvent(DateTime date, Offset localPosition) {
     final dateTimeRange = calculateDateTimeRange(date, localPosition);
-    final newEvent = CalendarEvent<T>(dateTimeRange: dateTimeRange);
-    final event = callbacks?.onEventCreate?.call(newEvent) ?? newEvent;
+    final event = callbacks?.onEventCreate.call(dateTimeRange);
+    if (event == null) return;
     controller.setNewEvent(event);
     controller.selectEvent(event);
   }

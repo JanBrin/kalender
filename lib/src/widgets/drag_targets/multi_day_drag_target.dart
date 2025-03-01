@@ -12,7 +12,7 @@ import 'package:kalender/src/models/calendar_events/draggable_event.dart';
 /// A [StatefulWidget] that provides a [DragTarget] for [Draggable] widgets containing a [Create], [Resize], [Reschedule] object.
 ///
 /// The [MultiDayDragTarget] specializes in accepting [Draggable] widgets for a multi day header / month body.
-class MultiDayDragTarget<T extends Object?> extends StatefulWidget {
+class MultiDayDragTarget<T extends CalendarEvent<T>> extends StatefulWidget {
   final EventsController<T> eventsController;
   final CalendarController<T> calendarController;
   final CalendarCallbacks<T>? callbacks;
@@ -47,7 +47,7 @@ class MultiDayDragTarget<T extends Object?> extends StatefulWidget {
   State<MultiDayDragTarget<T>> createState() => _MultiDayDragTargetState<T>();
 }
 
-class _MultiDayDragTargetState<T extends Object?> extends State<MultiDayDragTarget<T>> with DragTargetUtilities<T> {
+class _MultiDayDragTargetState<T extends CalendarEvent<T>> extends State<MultiDayDragTarget<T>> with DragTargetUtilities<T> {
   @override
   EventsController<T> get eventsController => widget.eventsController;
   @override
@@ -143,7 +143,7 @@ class _MultiDayDragTargetState<T extends Object?> extends State<MultiDayDragTarg
   }
 
   @override
-  CalendarEvent<T>? rescheduleEvent(CalendarEvent<T> event, DateTime cursorDateTime) {
+  T? rescheduleEvent(T event, DateTime cursorDateTime) {
     // Calculate the new dateTimeRange for the event.
     final newStartTime = cursorDateTime;
     final duration = event.dateTimeRangeAsUtc.duration;
@@ -157,7 +157,7 @@ class _MultiDayDragTargetState<T extends Object?> extends State<MultiDayDragTarg
   }
 
   @override
-  CalendarEvent<T>? resizeEvent(CalendarEvent<T> event, ResizeDirection direction, DateTime cursorDateTime) {
+  T? resizeEvent(T event, ResizeDirection direction, DateTime cursorDateTime) {
     final range = switch (direction) {
       ResizeDirection.left => calculateDateTimeRangeFromStart(event.dateTimeRangeAsUtc, cursorDateTime),
       ResizeDirection.right => calculateDateTimeRangeFromEnd(event.dateTimeRangeAsUtc, cursorDateTime.endOfDay),
@@ -168,7 +168,7 @@ class _MultiDayDragTargetState<T extends Object?> extends State<MultiDayDragTarg
   }
 
   @override
-  CalendarEvent<T>? createEvent(DateTime cursorDateTime) {
+  T? createEvent(DateTime cursorDateTime) {
     final event = super.createEvent(cursorDateTime);
     if (event == null) return null;
 

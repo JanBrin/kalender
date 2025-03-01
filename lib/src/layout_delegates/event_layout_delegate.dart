@@ -16,21 +16,21 @@ export 'package:kalender/kalender_extensions.dart';
 ///
 ///  * [sideBySideLayoutStrategy], which displays the tiles next to each other.
 ///
-typedef EventLayoutStrategy<T extends Object?> = EventLayoutDelegate<T> Function(
-  Iterable<CalendarEvent<T>> events,
+typedef EventLayoutStrategy = EventLayoutDelegate Function(
+  Iterable<CalendarEvent<dynamic>> events,
   DateTime date,
   TimeOfDayRange timeOfDayRange,
   double heightPerMinute,
 );
 
 /// A [EventLayoutStrategy] that lays out the tiles on top of each other.
-EventLayoutDelegate overlapLayoutStrategy<T extends Object?>(
-  Iterable<CalendarEvent<T>> events,
+EventLayoutDelegate overlapLayoutStrategy(
+  Iterable<CalendarEvent<dynamic>> events,
   DateTime date,
   TimeOfDayRange timeOfDayRange,
   double heightPerMinute,
 ) {
-  return OverlapLayoutDelegate<T>(
+  return OverlapLayoutDelegate(
     events: events,
     date: date,
     heightPerMinute: heightPerMinute,
@@ -39,13 +39,13 @@ EventLayoutDelegate overlapLayoutStrategy<T extends Object?>(
 }
 
 /// A [EventLayoutStrategy] that lays out the tiles side by side.
-EventLayoutDelegate sideBySideLayoutStrategy<T extends Object?>(
-  Iterable<CalendarEvent<T>> events,
+EventLayoutDelegate sideBySideLayoutStrategy(
+  Iterable<CalendarEvent<dynamic>> events,
   DateTime date,
   TimeOfDayRange timeOfDayRange,
   double heightPerMinute,
 ) {
-  return SideBySideLayoutDelegate<T>(
+  return SideBySideLayoutDelegate(
     events: events,
     date: date,
     heightPerMinute: heightPerMinute,
@@ -64,7 +64,7 @@ EventLayoutDelegate sideBySideLayoutStrategy<T extends Object?>(
 /// * [calculateVerticalLayoutData] - Calculates the top and bottom of each event.
 /// * [groupVerticalLayoutData] - Groups the [VerticalLayoutData] into horizontal groups.
 ///
-abstract class EventLayoutDelegate<T extends Object?> extends MultiChildLayoutDelegate {
+abstract class EventLayoutDelegate extends MultiChildLayoutDelegate {
   EventLayoutDelegate({
     required this.events,
     required this.heightPerMinute,
@@ -73,7 +73,7 @@ abstract class EventLayoutDelegate<T extends Object?> extends MultiChildLayoutDe
   });
 
   /// The list of events that will be laid out. (The order of these events are the same as the widget's)
-  final Iterable<CalendarEvent<T>> events;
+  final Iterable<CalendarEvent<dynamic>> events;
   final DateTime date;
   final TimeOfDayRange timeOfDayRange;
   final double heightPerMinute;
@@ -82,13 +82,13 @@ abstract class EventLayoutDelegate<T extends Object?> extends MultiChildLayoutDe
   ///
   /// This is used to sort the events before passing them to the [EventLayoutDelegate].
   /// Override this method to provide custom sorting.
-  List<CalendarEvent<T>> sortEvents(Iterable<CalendarEvent<T>> events);
+  List<CalendarEvent<dynamic>> sortEvents(Iterable<CalendarEvent<dynamic>> events);
 
   /// Calculates the height of an item based on the [duration] and [heightPerMinute] of the event.
   ///
   /// [event] - The event to calculate the height of.
   /// [heightPerMinute] - The per minute of the current view.
-  double calculateHeight(CalendarEvent<T> event) {
+  double calculateHeight(CalendarEvent<dynamic> event) {
     final durationOnDate = event.dateTimeRangeAsUtc.dateTimeRangeOnDate(date)?.duration ?? Duration.zero;
     return ((durationOnDate.inSeconds / 60) * heightPerMinute);
   }
@@ -98,7 +98,7 @@ abstract class EventLayoutDelegate<T extends Object?> extends MultiChildLayoutDe
   /// [event] - The event to calculate the distance from.
   ///
   /// * Note: this takes into account the [TimeOfDayRange] of the [EventLayoutDelegate].
-  double calculateDistanceFromStart(CalendarEvent<T> event) {
+  double calculateDistanceFromStart(CalendarEvent<dynamic> event) {
     final eventStart = event.dateTimeRangeAsUtc.dateTimeRangeOnDate(date)?.start ?? date.startOfDay;
     final dateStart = timeOfDayRange.start.toDateTime(date);
     return (eventStart.difference(dateStart).inMinutes * heightPerMinute);
@@ -166,7 +166,7 @@ abstract class EventLayoutDelegate<T extends Object?> extends MultiChildLayoutDe
 }
 
 /// The [OverlapLayoutDelegate] lays out [CalendarEvent]'s, by stacking them on top of one another.
-class OverlapLayoutDelegate<T extends Object?> extends EventLayoutDelegate<T> {
+class OverlapLayoutDelegate extends EventLayoutDelegate {
   OverlapLayoutDelegate({
     required super.events,
     required super.heightPerMinute,
@@ -175,7 +175,7 @@ class OverlapLayoutDelegate<T extends Object?> extends EventLayoutDelegate<T> {
   });
 
   @override
-  List<CalendarEvent<T>> sortEvents(Iterable<CalendarEvent<T>> events) {
+  List<CalendarEvent<dynamic>> sortEvents(Iterable<CalendarEvent<dynamic>> events) {
     return events.toList()
       ..sort((a, b) => b.duration.compareTo(a.duration))
       ..sort((a, b) => b.duration.compareTo(a.duration) == 0 ? b.startAsUtc.compareTo(a.startAsUtc) : 0);
@@ -230,7 +230,7 @@ class OverlapLayoutDelegate<T extends Object?> extends EventLayoutDelegate<T> {
 }
 
 /// The [SideBySideLayoutDelegate] lays out [CalendarEvent]'s next to one another.
-class SideBySideLayoutDelegate<T extends Object?> extends EventLayoutDelegate<T> {
+class SideBySideLayoutDelegate extends EventLayoutDelegate {
   SideBySideLayoutDelegate({
     required super.events,
     required super.heightPerMinute,
@@ -239,7 +239,8 @@ class SideBySideLayoutDelegate<T extends Object?> extends EventLayoutDelegate<T>
   });
 
   @override
-  List<CalendarEvent<T>> sortEvents(Iterable<CalendarEvent<T>> events) => events.toList();
+  List<CalendarEvent<dynamic>> sortEvents(Iterable<CalendarEvent<dynamic>> events) => events.toList();
+
   @override
   List<VerticalLayoutData> sortVerticalLayoutData(List<VerticalLayoutData> layoutData) {
     // Sort the data from top to bottom.

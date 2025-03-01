@@ -5,19 +5,19 @@ import 'package:kalender/kalender_extensions.dart';
 import 'package:kalender/src/models/calendar_events/calendar_event.dart';
 
 /// Signature for the strategy that determines how multi-day events are laid out.
-typedef MultiDayEventLayoutStrategy<T extends Object?> = MultiDayEventLayoutDelegate<T> Function(
-  List<CalendarEvent<T>> events,
+typedef MultiDayEventLayoutStrategy = MultiDayEventLayoutDelegate Function(
+  List<CalendarEvent<dynamic>> events,
   DateTimeRange dateTimeRange,
   double multiDayTileHeight,
 );
 
 /// The default [MultiDayEventLayoutStrategy].
-MultiDayEventLayoutDelegate defaultMultiDayLayoutStrategy<T extends Object?>(
-  List<CalendarEvent<T>> events,
+MultiDayEventLayoutDelegate defaultMultiDayLayoutStrategy(
+  List<CalendarEvent<dynamic>> events,
   DateTimeRange dateTimeRange,
   double multiDayTileHeight,
 ) {
-  return DefaultMultiDayLayoutDelegate<T>(
+  return DefaultMultiDayLayoutDelegate(
     events: events,
     dateTimeRange: dateTimeRange,
     multiDayTileHeight: multiDayTileHeight,
@@ -25,7 +25,7 @@ MultiDayEventLayoutDelegate defaultMultiDayLayoutStrategy<T extends Object?>(
 }
 
 /// The base class for [MultiDayEventLayoutDelegate]'s.
-abstract class MultiDayEventLayoutDelegate<T extends Object?> extends MultiChildLayoutDelegate {
+abstract class MultiDayEventLayoutDelegate extends MultiChildLayoutDelegate {
   MultiDayEventLayoutDelegate({
     required this.events,
     required this.dateTimeRange,
@@ -33,7 +33,7 @@ abstract class MultiDayEventLayoutDelegate<T extends Object?> extends MultiChild
   });
 
   /// The list of events that will be laid out. (The order of these events are the same as the widget's)
-  final List<CalendarEvent<T>> events;
+  final List<CalendarEvent<dynamic>> events;
   final DateTimeRange dateTimeRange;
   final double multiDayTileHeight;
 
@@ -50,7 +50,7 @@ abstract class MultiDayEventLayoutDelegate<T extends Object?> extends MultiChild
 }
 
 /// TODO: This is still a WIP
-class DefaultMultiDayLayoutDelegate<T> extends MultiDayEventLayoutDelegate<T> {
+class DefaultMultiDayLayoutDelegate extends MultiDayEventLayoutDelegate {
   DefaultMultiDayLayoutDelegate({
     required super.events,
     required super.dateTimeRange,

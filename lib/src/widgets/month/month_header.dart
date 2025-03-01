@@ -3,7 +3,7 @@ import 'package:kalender/kalender.dart';
 import 'package:kalender/src/models/providers/calendar_provider.dart';
 
 /// The month header is a simple widget that just displays the day names.
-class MonthHeader<T extends Object?> extends StatelessWidget {
+class MonthHeader<T extends CalendarEvent<T>> extends StatelessWidget {
   /// The [CalendarController] that will be used by the [MonthBody].
   final CalendarController<T>? calendarController;
 

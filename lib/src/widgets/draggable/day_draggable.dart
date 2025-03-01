@@ -7,7 +7,7 @@ import 'package:kalender/src/widgets/draggable/new_draggable.dart';
 /// This widget generates draggable widgets for each visible day.
 /// - These draggable widgets are used to create new events.
 ///
-class DayEventDraggableWidgets<T extends Object?> extends NewDraggableWidget<T> {
+class DayEventDraggableWidgets<T extends CalendarEvent<T>> extends NewDraggableWidget<T> {
   final MultiDayBodyConfiguration bodyConfiguration;
   final DateTimeRange visibleDateTimeRange;
   final TimeOfDayRange timeOfDayRange;

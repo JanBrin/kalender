@@ -36,7 +36,7 @@ class TimelineStyle {
 }
 
 /// A widget that displays a list of times based on the [timeOfDayRange] and [heightPerMinute].
-class TimeLine<T extends Object?> extends StatelessWidget {
+class TimeLine<T extends CalendarEvent<T>> extends StatelessWidget {
   /// The [TimeOfDayRange] that will be used to display the timeline.
   final TimeOfDayRange timeOfDayRange;
 
@@ -47,7 +47,7 @@ class TimeLine<T extends Object?> extends StatelessWidget {
   final TimelineStyle? style;
 
   /// The [ValueNotifier] that contains the event being dragged.
-  final ValueNotifier<CalendarEvent<T>?> eventBeingDragged;
+  final ValueNotifier<T?> eventBeingDragged;
 
   /// The visibleDataTimeRange.
   final ValueNotifier<DateTimeRange> visibleDateTimeRange;

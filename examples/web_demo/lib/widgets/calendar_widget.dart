@@ -170,12 +170,12 @@ class CalendarWidget extends StatelessWidget {
   }
 
   Widget _tileBuilder(
-    CalendarEvent<Event> event,
+    Event event,
     DateTimeRange tileRange,
     EdgeInsets margin,
     EdgeInsets padding,
   ) {
-    final color = (event.data?.color ?? Colors.blueGrey);
+    final color = (event.color ?? Colors.blueGrey);
     return Container(
       margin: margin,
       decoration: BoxDecoration(
@@ -185,38 +185,38 @@ class CalendarWidget extends StatelessWidget {
       child: Padding(
         padding: padding,
         child: Text(
-          event.data?.title ?? "New Event",
+          event.title,
           style: TextStyle(color: textColor(color)),
         ),
       ),
     );
   }
 
-  Widget _feedbackTileBuilder(CalendarEvent<Event> event, Size dropTargetWidgetSize) {
+  Widget _feedbackTileBuilder(Event event, Size dropTargetWidgetSize) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       width: dropTargetWidgetSize.width * 0.8,
       height: dropTargetWidgetSize.height,
       decoration: BoxDecoration(
-        color: (event.data?.color ?? Colors.blueGrey).withAlpha(150),
+        color: (event.color ?? Colors.blueGrey).withAlpha(150),
         borderRadius: BorderRadius.circular(8),
       ),
     );
   }
 
-  Widget _tileWhenDraggingBuilder(CalendarEvent<Event> event) {
+  Widget _tileWhenDraggingBuilder(Event event) {
     return Container(
       decoration: BoxDecoration(
-        color: (event.data?.color ?? Colors.blueGrey).withAlpha(20),
+        color: (event.color ?? Colors.blueGrey).withAlpha(20),
         borderRadius: BorderRadius.circular(8),
       ),
     );
   }
 
-  Widget _dropTargetTile(CalendarEvent<Event> event) {
+  Widget _dropTargetTile(Event event) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        border: Border.all(color: (event.data?.color ?? Colors.blueGrey), width: 2),
+        border: Border.all(color: (event.color ?? Colors.blueGrey), width: 2),
         borderRadius: BorderRadius.circular(8),
       ),
     );

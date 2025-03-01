@@ -8,10 +8,10 @@ mixin CalendarOverlay {
   EventsController<Event> get eventsController;
 
   final portalController = OverlayPortalController();
-  CalendarEvent<Event>? selectedEvent;
+  Event? selectedEvent;
   RenderBox? selectedRenderBox;
 
-  void createOverlay(CalendarEvent<Event> event, RenderBox renderBox) {
+  void createOverlay(Event event, RenderBox renderBox) {
     selectedEvent = event;
     selectedRenderBox = renderBox;
     portalController.show();

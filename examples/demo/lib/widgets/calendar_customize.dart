@@ -198,6 +198,7 @@ class _CalendarCustomizeState extends State<CalendarCustomize> {
       },
     );
 
+    // TODO: figure this out.
     final layoutStrategy = DropdownMenu(
       initialSelection: overlapLayoutStrategy,
       expandedInsets: const EdgeInsets.only(left: 16, right: 32),

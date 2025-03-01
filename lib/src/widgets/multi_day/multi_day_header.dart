@@ -13,7 +13,7 @@ import 'package:kalender/src/widgets/internal_components/multi_day_header_layout
 /// - [_FreeScrollHeader] this is a special case for a body that scrolls freely (WIP/Not working)
 ///
 /// All Header widgets make use of the [ExpandablePageView] which uses a [SizeReportingWidget]to set the the Height of the header, this is so they can resize dynamically.
-class MultiDayHeader<T extends Object?> extends StatelessWidget {
+class MultiDayHeader<T extends CalendarEvent<T>> extends StatelessWidget {
   /// The [EventsController] that will be used by the [MultiDayHeader].
   final EventsController<T>? eventsController;
 
@@ -124,7 +124,7 @@ class MultiDayHeader<T extends Object?> extends StatelessWidget {
 }
 
 /// A header catered for displaying multi-day events for a single day body.
-class _SingleDayHeader<T extends Object?> extends StatelessWidget {
+class _SingleDayHeader<T extends CalendarEvent<T>> extends StatelessWidget {
   final EventsController<T> eventsController;
   final CalendarController<T> calendarController;
 
@@ -239,7 +239,7 @@ class _SingleDayHeader<T extends Object?> extends StatelessWidget {
 }
 
 /// A header catered for displaying multi-day events for a multi-day body.
-class _MultiDayHeader<T extends Object?> extends StatelessWidget {
+class _MultiDayHeader<T extends CalendarEvent<T>> extends StatelessWidget {
   final EventsController<T> eventsController;
   final CalendarController<T> calendarController;
 
@@ -379,7 +379,7 @@ class _MultiDayHeader<T extends Object?> extends StatelessWidget {
 }
 
 /// TODO: Fix and Ensure this works.
-class _FreeScrollHeader<T extends Object?> extends StatelessWidget {
+class _FreeScrollHeader<T extends CalendarEvent<T>> extends StatelessWidget {
   final EventsController<T> eventsController;
   final CalendarController<T> calendarController;
 

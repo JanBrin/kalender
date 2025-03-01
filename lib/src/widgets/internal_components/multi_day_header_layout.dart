@@ -9,7 +9,7 @@ import 'package:kalender/src/models/providers/calendar_provider.dart';
 ///
 /// This widget uses the [TimeLine] to determine the size of the [leadingWidget].
 /// It uses the [content] to determine the height of the [MultiDayHeaderWidget].
-class MultiDayHeaderWidget<T extends Object?> extends StatelessWidget {
+class MultiDayHeaderWidget<T extends CalendarEvent<T>> extends StatelessWidget {
   final Widget content;
   final Widget leadingWidget;
   const MultiDayHeaderWidget({
@@ -29,14 +29,14 @@ class MultiDayHeaderWidget<T extends Object?> extends StatelessWidget {
     const heightPerMinute = 1.0;
     final timeOfDayRange = TimeOfDayRange.allDay();
     final dateTimeRange = DateTimeRange(start: DateTime(2024), end: DateTime(2024, 1, 2));
-    final selectedEvent = CalendarEvent<T>(dateTimeRange: dateTimeRange);
 
     final timeline = bodyComponents?.timeline?.call(heightPerMinute, timeOfDayRange, timelineStyle) ??
         TimeLine(
           timeOfDayRange: timeOfDayRange,
           heightPerMinute: heightPerMinute,
           style: timelineStyle,
-          eventBeingDragged: ValueNotifier(selectedEvent),
+          // TODO: Look at this.
+          eventBeingDragged: ValueNotifier<T?>(null),
           visibleDateTimeRange: ValueNotifier(dateTimeRange),
         );
 

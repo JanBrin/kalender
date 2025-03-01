@@ -4,18 +4,18 @@ import 'package:kalender/src/enumerations.dart';
 import 'package:kalender/src/models/mixins/drag_target_utils.dart';
 
 /// A class used by the [DragTargetUtilities] to determine that a [CalendarEvent] is being rescheduled.
-class Reschedule<T extends Object?> {
+class Reschedule<T extends CalendarEvent<T>> {
   /// The [CalendarEvent] that is being rescheduled.
-  final CalendarEvent<T> event;
+  final T event;
 
   /// Create a reschedule object from a [CalendarEvent].
   Reschedule({required this.event});
 }
 
 /// A class used by the [DragTargetUtilities] to determine that a [CalendarEvent] is being resized.
-class Resize<T extends Object?> {
+class Resize<T extends CalendarEvent<T>> {
   /// The [CalendarEvent] that is being resized.
-  final CalendarEvent<T> event;
+  final T event;
 
   /// The direction that the [CalendarEvent] is being resized in.
   final ResizeDirection direction;

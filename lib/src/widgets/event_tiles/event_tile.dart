@@ -8,15 +8,14 @@ import 'package:kalender/src/models/calendar_events/draggable_event.dart';
 import 'package:kalender/src/models/components/tile_components.dart';
 import 'package:kalender/src/models/controllers/calendar_controller.dart';
 import 'package:kalender/src/models/controllers/events_controller.dart';
-import 'package:kalender/src/type_definitions.dart';
 
 /// The base class for all event tiles.
 ///
 /// Event tiles are used to display events in the calendar.
-abstract class EventTile<T extends Object?> extends StatelessWidget {
+abstract class EventTile<T extends CalendarEvent<T>> extends StatelessWidget {
   final EventsController<T> eventsController;
   final CalendarController<T> controller;
-  final CalendarEvent<T> event;
+  final T event;
   final CalendarCallbacks<T>? callbacks;
   final TileComponents<T> tileComponents;
 
@@ -45,7 +44,7 @@ abstract class EventTile<T extends Object?> extends StatelessWidget {
   DateTimeRange get localDateTimeRange => dateTimeRange.asLocal;
   DragAnchorStrategy? get dragAnchorStrategy => tileComponents.dragAnchorStrategy;
   ValueNotifier<Size> get feedbackWidgetSize => eventsController.feedbackWidgetSize;
-  ValueNotifier<CalendarEvent<T>?> get selectedEvent => controller.selectedEvent;
+  ValueNotifier<T?> get selectedEvent => controller.selectedEvent;
 
   OnEventTapped<T>? get onEventTapped => callbacks?.onEventTapped;
 

@@ -8,7 +8,7 @@ import 'package:kalender/src/widgets/event_tiles/event_tile.dart';
 /// This widget renders the tile widget and resize handles in a stack.
 /// 
 /// The tile widget is rendered below the resize handles.
-class MultiDayEventTile<T extends Object?> extends EventTile<T> {
+class MultiDayEventTile<T extends CalendarEvent<T>> extends EventTile<T> {
   const MultiDayEventTile({
     super.key,
     required super.controller,

@@ -5,15 +5,15 @@ import 'package:kalender/src/models/calendar_events/calendar_event.dart';
 /// A controller for [CalendarEvent]s.
 ///
 /// This is used to store and manage the [CalendarEvent]s.
-class EventsController<T extends Object?> with ChangeNotifier {
+class EventsController<T extends CalendarEvent<T>> with ChangeNotifier {
   ValueNotifier<Size> feedbackWidgetSize = ValueNotifier(Size.zero);
 
   /// The list of [CalendarEvent]s.
-  final Map<int, CalendarEvent<T>> _events = {};
-  Iterable<CalendarEvent<T>> get events => _events.values;
+  final _events = <int, T>{};
+  Iterable<T> get events => _events.values;
 
   /// A Map of dates and event ids.
-  final DateMap _dateMap = DateMap();
+  final _dateMap = DateMap<T>();
 
   int _lastId = 0;
   int get _nextId {
@@ -24,7 +24,7 @@ class EventsController<T extends Object?> with ChangeNotifier {
   /// Adds an [CalendarEvent] to the [EventsController].
   ///
   /// Returns the id assigned to the event.
-  int addEvent(CalendarEvent<T> event) {
+  int addEvent(T event) {
     final id = _assignIdAndAdd(event);
     notifyListeners();
     return id;
@@ -33,14 +33,14 @@ class EventsController<T extends Object?> with ChangeNotifier {
   /// Adds a list of [CalendarEvent]s to the [EventsController].
   ///
   /// Returns the id's assigned to the events in order.
-  List<int> addEvents(List<CalendarEvent<T>> events) {
+  List<int> addEvents(List<T> events) {
     final ids = events.map(_assignIdAndAdd).toList();
     notifyListeners();
     return ids;
   }
 
   /// Removes an [CalendarEvent] from the list of [CalendarEvent]s.
-  void removeEvent(CalendarEvent<T> event) {
+  void removeEvent(T event) {
     assert(event.id != -1, 'The id of the event must be set before removing it.');
     _events.remove(event.id);
     _dateMap.removeEvent(event);
@@ -58,7 +58,7 @@ class EventsController<T extends Object?> with ChangeNotifier {
   /// Removes a list of [CalendarEvent]s from the list of [CalendarEvent]s.
   ///
   /// The events will be removed where [test] returns true.
-  void removeWhere(bool Function(int key, CalendarEvent<T> element) test) {
+  void removeWhere(bool Function(int key, T element) test) {
     _events.removeWhere(
       (key, event) {
         final remove = test(key, event);
@@ -81,8 +81,8 @@ class EventsController<T extends Object?> with ChangeNotifier {
   /// The [event] is the event that needs to be changed.
   /// The [updatedEvent] is the event that will replace the [event].
   void updateEvent({
-    required CalendarEvent<T> event,
-    required CalendarEvent<T> updatedEvent,
+    required T event,
+    required T updatedEvent,
   }) {
     updatedEvent.id = event.id;
     _events[event.id] = updatedEvent;
@@ -91,10 +91,10 @@ class EventsController<T extends Object?> with ChangeNotifier {
   }
 
   /// Retrieve a [CalendarEvent] by it's id if it exists.
-  CalendarEvent<T>? byId(int id) => _events[id];
+  T? byId(int id) => _events[id];
 
   /// Assigns an id to the [event] and adds it to the [_events] Map.
-  int _assignIdAndAdd(CalendarEvent<T> event) {
+  int _assignIdAndAdd(T event) {
     assert(event.id == -1, 'The id of the event must not be set manually.');
 
     event.id = _nextId;
@@ -107,7 +107,7 @@ class EventsController<T extends Object?> with ChangeNotifier {
   }
 
   /// Finds the [CalendarEvent]s that occur during the [dateTimeRange].
-  Iterable<CalendarEvent<T>> eventsFromDateTimeRange(
+  Iterable<T> eventsFromDateTimeRange(
     DateTimeRange dateTimeRange, {
     bool includeMultiDayEvents = true,
     bool includeDayEvents = true,
@@ -127,8 +127,8 @@ class EventsController<T extends Object?> with ChangeNotifier {
   }
 
   /// Finds the [CalendarEvent]s longer than 1 day that occur during the [dateTimeRange].
-  Iterable<CalendarEvent<T>> _multiDayEventsFromDateTimeRange(
-    Iterable<CalendarEvent<T>> events,
+  Iterable<T> _multiDayEventsFromDateTimeRange(
+    Iterable<T> events,
     DateTimeRange dateTimeRange,
   ) {
     return events.where((event) {
@@ -139,8 +139,8 @@ class EventsController<T extends Object?> with ChangeNotifier {
   }
 
   /// Finds the [CalendarEvent]s that are shorter than 1 day that occur during the [dateTimeRange].
-  Iterable<CalendarEvent<T>> _dayEventsFromDateTimeRange(
-    Iterable<CalendarEvent<T>> events,
+  Iterable<T> _dayEventsFromDateTimeRange(
+    Iterable<T> events,
     DateTimeRange dateTimeRange,
   ) {
     return events.where((event) {
@@ -152,7 +152,7 @@ class EventsController<T extends Object?> with ChangeNotifier {
 }
 
 /// A class for searching the events by date more efficient.
-class DateMap {
+class DateMap<T extends CalendarEvent<T>> {
   /// Map of the [DateTime] and event ids.
   ///
   /// The [DateTime] is the date.
@@ -163,7 +163,7 @@ class DateMap {
   void clear() => _dateMap.clear();
 
   /// Add an [event] to the map.
-  void addEvent(CalendarEvent event) {
+  void addEvent(T event) {
     final id = event.id;
     final dates = event.datesSpanned;
     for (final date in dates) {
@@ -176,7 +176,7 @@ class DateMap {
   }
 
   /// Remove an [event] from the map.
-  void removeEvent(CalendarEvent event) {
+  void removeEvent(T event) {
     final id = event.id;
     final dates = event.datesSpanned;
     for (final date in dates) {
@@ -188,7 +188,7 @@ class DateMap {
   }
 
   /// Update an [event] in the map with the [updatedEvent].
-  void updateEvent(CalendarEvent event, CalendarEvent updatedEvent) {
+  void updateEvent(T event, T updatedEvent) {
     removeEvent(event);
     addEvent(updatedEvent);
   }

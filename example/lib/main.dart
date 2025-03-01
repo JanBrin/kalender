@@ -12,32 +12,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Kalender Example',
       themeMode: ThemeMode.light,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        cardTheme: const CardTheme(
-            margin: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)))),
-      ),
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue, brightness: Brightness.dark),
-        cardTheme: const CardTheme(
-          margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-        ),
-      ),
-      home: const MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
 
-class Event {
+class Event extends CalendarEvent<Event> {
   final String title;
   final Color? color;
-  const Event(this.title, this.color);
+
+  Event(this.title, this.color, {required super.dateTimeRange});
+
+  @override
+  bool get canModify => true;
+
+  @override
+  Event updateRange({DateTimeRange? dateTimeRange}) {
+    return Event(title, color, dateTimeRange: dateTimeRange ?? super.dateTimeRange);
+  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -83,13 +78,15 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     eventsController.addEvents(
       [
-        CalendarEvent(
+        Event(
+          'My Event',
+          Colors.green,
           dateTimeRange: DateTimeRange(start: now, end: now.add(const Duration(hours: 1))),
-          data: const Event('My Event', Colors.green),
         ),
-        CalendarEvent(
+        Event(
+          'My Event',
+          Colors.blue,
           dateTimeRange: DateTimeRange(start: now, end: now.add(const Duration(hours: 1))),
-          data: const Event('My Event', Colors.blue),
         ),
       ],
     );
@@ -105,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Handle the callbacks made by the calendar.
         callbacks: CalendarCallbacks<Event>(
           onEventTapped: (event, renderBox) => calendarController.selectEvent(event),
-          onEventCreate: (event) => event,
+          onEventCreate: (dateTimeRange) => Event('New Event', color, dateTimeRange: dateTimeRange),
           onEventCreated: (event) => eventsController.addEvent(event),
         ),
         // Customize the components.
@@ -148,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
         return Card(
           margin: body ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 1),
           color: color,
-          child: Text(event.data?.title ?? ""),
+          child: Text(event.title),
         );
       },
       dropTargetTile: (event) => DecoratedBox(

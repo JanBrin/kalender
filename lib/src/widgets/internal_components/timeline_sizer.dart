@@ -4,7 +4,7 @@ import 'package:kalender/kalender.dart';
 import 'package:kalender/src/models/providers/calendar_provider.dart';
 
 /// A Widget that sizes the width of the [child] based on the [TimeLine].
-class TimelineSizer<T extends Object?> extends StatelessWidget {
+class TimelineSizer<T extends CalendarEvent<T>> extends StatelessWidget {
   final Widget child;
   const TimelineSizer({
     super.key,
@@ -22,14 +22,13 @@ class TimelineSizer<T extends Object?> extends StatelessWidget {
     const heightPerMinute = 1.0;
     final timeOfDayRange = TimeOfDayRange.allDay();
     final dateTimeRange = DateTimeRange(start: DateTime(2024), end: DateTime(2024, 1, 2));
-    final selectedEvent = CalendarEvent<T>(dateTimeRange: dateTimeRange);
 
     final timeline = bodyComponents?.timeline?.call(heightPerMinute, timeOfDayRange, timelineStyle) ??
         TimeLine(
           timeOfDayRange: timeOfDayRange,
           heightPerMinute: heightPerMinute,
           style: timelineStyle,
-          eventBeingDragged: ValueNotifier(selectedEvent),
+          eventBeingDragged: ValueNotifier<T?>(null),
           visibleDateTimeRange: ValueNotifier(dateTimeRange),
         );
 

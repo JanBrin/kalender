@@ -4,7 +4,7 @@ import 'package:kalender/src/enumerations.dart';
 import 'package:kalender/src/models/calendar_events/draggable_event.dart';
 import 'package:kalender/src/widgets/draggable/new_draggable.dart';
 
-class MultiDayEventDraggableWidgets<T extends Object?> extends NewDraggableWidget<T> {
+class MultiDayEventDraggableWidgets<T extends CalendarEvent<T>> extends NewDraggableWidget<T> {
   final EventsController<T> eventsController;
   final DateTimeRange visibleDateTimeRange;
   final CreateEventGesture createEventTrigger;

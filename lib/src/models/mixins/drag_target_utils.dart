@@ -3,9 +3,9 @@ import 'package:kalender/kalender.dart';
 import 'package:kalender/src/enumerations.dart';
 import 'package:kalender/src/models/calendar_events/draggable_event.dart';
 
-typedef UpdatedEvent<T> = (CalendarEvent<T>, CalendarEvent<T>);
+typedef UpdatedEvent<T extends CalendarEvent<T>> = (T, T);
 
-mixin DragTargetUtilities<T> {
+mixin DragTargetUtilities<T extends CalendarEvent<T>> {
   BuildContext get context;
   CalendarController<T> get controller;
   EventsController<T> get eventsController;
@@ -15,7 +15,7 @@ mixin DragTargetUtilities<T> {
   bool get multiDayDragTarget;
 
   /// A copy of the event being created.
-  CalendarEvent<T>? newEvent;
+  T? newEvent;
 
   /// Get the global position of the [DragTarget] widget.
   Offset? get dragTargetPosition {
@@ -31,8 +31,8 @@ mixin DragTargetUtilities<T> {
   /// Handle the [DragTarget.onWillAcceptWithDetails].
   bool onWillAcceptWithDetails(
     DragTargetDetails<Object?> details, {
-    required bool Function(CalendarEvent<T> event, ResizeDirection direction) onResize,
-    required bool Function(CalendarEvent<T> event) onReschedule,
+    required bool Function(T event, ResizeDirection direction) onResize,
+    required bool Function(T event) onReschedule,
   }) {
     return _handleDragDetails(
       details,
@@ -138,13 +138,13 @@ mixin DragTargetUtilities<T> {
   }
 
   /// Reschedule an event.
-  CalendarEvent<T>? rescheduleEvent(CalendarEvent<T> event, DateTime cursorDateTime);
+  T? rescheduleEvent(T event, DateTime cursorDateTime);
 
   /// Resize an event.
-  CalendarEvent<T>? resizeEvent(CalendarEvent<T> event, ResizeDirection direction, DateTime cursorDateTime);
+  T? resizeEvent(T event, ResizeDirection direction, DateTime cursorDateTime);
 
   /// Reschedule an event.
-  CalendarEvent<T>? createEvent(DateTime cursorDateTime) => newEvent ??= controller.newEvent;
+  T? createEvent(DateTime cursorDateTime) => newEvent ??= controller.newEvent;
 
   /// Processes the [DragTargetDetails] and handle different types of detail data (reschedule, resize, create, other).
   ///
@@ -157,8 +157,8 @@ mixin DragTargetUtilities<T> {
   K _handleDragDetails<K extends Object?>(
     DragTargetDetails<Object?> details, {
     required K Function(int controllerId) onCreate,
-    required K Function(CalendarEvent<T> event, ResizeDirection direction) onResize,
-    required K Function(CalendarEvent<T> event) onReschedule,
+    required K Function(T event, ResizeDirection direction) onResize,
+    required K Function(T event) onReschedule,
     required K Function() onOther,
   }) {
     final data = details.data;

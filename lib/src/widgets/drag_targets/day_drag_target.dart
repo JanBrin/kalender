@@ -14,7 +14,7 @@ import 'package:kalender/src/models/calendar_events/draggable_event.dart';
 /// A [StatefulWidget] that provides a [DragTarget] for [Create], [Resize], [Reschedule] objects.
 ///
 /// The [DayDragTarget] specializes in accepting [Draggable] widgets for a multi day body.
-class DayDragTarget<T extends Object?> extends StatefulWidget {
+class DayDragTarget<T extends CalendarEvent<T>> extends StatefulWidget {
   final EventsController<T> eventsController;
   final CalendarController<T> calendarController;
   final MultiDayViewController<T> viewController;
@@ -60,7 +60,8 @@ class DayDragTarget<T extends Object?> extends StatefulWidget {
   State<DayDragTarget<T>> createState() => _DayDragTargetState<T>();
 }
 
-class _DayDragTargetState<T extends Object?> extends State<DayDragTarget<T>> with SnapPoints, DragTargetUtilities<T> {
+class _DayDragTargetState<T extends CalendarEvent<T>> extends State<DayDragTarget<T>>
+    with SnapPoints<T>, DragTargetUtilities<T> {
   @override
   EventsController<T> get eventsController => widget.eventsController;
   ValueNotifier<Size?> get feedbackWidgetSize => eventsController.feedbackWidgetSize;
@@ -245,7 +246,7 @@ class _DayDragTargetState<T extends Object?> extends State<DayDragTarget<T>> wit
 
   /// Update the [CalendarEvent] based on the [Offset] delta.
   @override
-  CalendarEvent<T>? rescheduleEvent(CalendarEvent<T> event, DateTime cursorDateTime) {
+  T? rescheduleEvent(T event, DateTime cursorDateTime) {
     DateTime start;
 
     if (timeOfDayRange.isAllDay) {
@@ -298,7 +299,7 @@ class _DayDragTargetState<T extends Object?> extends State<DayDragTarget<T>> wit
 
   /// Update the [CalendarEvent] based on the [direction] and [cursorDateTime] delta.
   @override
-  CalendarEvent<T>? resizeEvent(CalendarEvent<T> event, ResizeDirection direction, DateTime cursorDateTime) {
+  T? resizeEvent(T event, ResizeDirection direction, DateTime cursorDateTime) {
     // Ignore vertical direction resizing.
     if (!direction.vertical) return null;
 
@@ -313,7 +314,7 @@ class _DayDragTargetState<T extends Object?> extends State<DayDragTarget<T>> wit
   }
 
   @override
-  CalendarEvent<T>? createEvent(DateTime cursorDateTime) {
+  T? createEvent(DateTime cursorDateTime) {
     final event = super.createEvent(cursorDateTime);
     if (event == null) return null;
 

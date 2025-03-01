@@ -12,7 +12,7 @@ import 'package:kalender/src/models/mixins/new_event.dart';
 /// The [CalendarView] attaches itself to the [CalendarController] by calling [attach].
 /// And detaches itself by calling [detach].
 ///
-class CalendarController<T extends Object?> extends ChangeNotifier with CalendarNavigationFunctions<T>, NewEvent<T> {
+class CalendarController<T extends CalendarEvent<T>> extends ChangeNotifier with CalendarNavigationFunctions<T>, NewEvent<T> {
   CalendarController({DateTime? initialDate})
       : initialDate = initialDate ?? DateTime.now(),
         id = DateTime.now().millisecondsSinceEpoch;
@@ -31,10 +31,10 @@ class CalendarController<T extends Object?> extends ChangeNotifier with Calendar
   late final visibleDateTimeRange = ValueNotifier<DateTimeRange>(initialDate.dayRange);
 
   /// The [CalendarEvent]s that are currently visible.
-  final visibleEvents = ValueNotifier<Set<CalendarEvent<T>>>({});
+  final visibleEvents = ValueNotifier<Set<T>>({});
 
   /// The event currently being focused on.
-  final selectedEvent = ValueNotifier<CalendarEvent<T>?>(null);
+  final selectedEvent = ValueNotifier<T?>(null);
   int? _selectedEventId;
   int? get selectedEventId => _selectedEventId;
 
@@ -46,13 +46,13 @@ class CalendarController<T extends Object?> extends ChangeNotifier with Calendar
   ///
   /// [event] the event to focus on.
   /// [internal] leave false if not called from within the package.
-  void selectEvent(CalendarEvent<T> event, {bool internal = false}) {
+  void selectEvent(T event, {bool internal = false}) {
     selectedEvent.value = event;
     _selectedEventId = event.id;
     _internalFocus = internal;
   }
 
-  void updateEvent(CalendarEvent<T> event, {bool internal = false}) {
+  void updateEvent(T event, {bool internal = false}) {
     selectedEvent.value = event;
     _internalFocus = internal;
   }
@@ -147,7 +147,7 @@ class CalendarController<T extends Object?> extends ChangeNotifier with Calendar
 
   @override
   Future<void> animateToEvent(
-    CalendarEvent<T> event, {
+    T event, {
     Duration? pageDuration,
     Curve? pageCurve,
     Duration? scrollDuration,

@@ -16,7 +16,7 @@ import 'package:kalender/src/widgets/internal_components/pass_through_pointer.da
 /// * Note: When a event is being modified by the user it renders that event in a separate [CustomMultiChildLayout],
 ///         This is somewhat expensive computationally as it lays out all the events again to determine the position
 ///         of the event being modified. See todo for a possible solution.
-class DayEventsWidget<T extends Object?> extends StatefulWidget {
+class DayEventsWidget<T extends CalendarEvent<T>> extends StatefulWidget {
   final EventsController<T> eventsController;
   final CalendarController<T> controller;
   final CalendarCallbacks<T>? callbacks;
@@ -46,12 +46,12 @@ class DayEventsWidget<T extends Object?> extends StatefulWidget {
   State<DayEventsWidget<T>> createState() => _DayEventsWidgetState<T>();
 }
 
-class _DayEventsWidgetState<T extends Object?> extends State<DayEventsWidget<T>> {
+class _DayEventsWidgetState<T extends CalendarEvent<T>> extends State<DayEventsWidget<T>> {
   /// The visible events value notifier.
-  ValueNotifier<Set<CalendarEvent<T>>> get visibleEvents => widget.controller.visibleEvents;
+  ValueNotifier<Set<T>> get visibleEvents => widget.controller.visibleEvents;
 
   /// A map containing all the days and Events that will be displayed.
-  late Map<DateTime, Iterable<CalendarEvent<T>>> eventsMap;
+  late Map<DateTime, Iterable<T>> eventsMap;
 
   @override
   void initState() {
@@ -76,7 +76,7 @@ class _DayEventsWidgetState<T extends Object?> extends State<DayEventsWidget<T>>
     final layoutStrategy = widget.configuration.eventLayoutStrategy;
 
     // Clear the visible events.
-    final allEvents = <CalendarEvent<T>>{};
+    final allEvents = <T>{};
 
     final entries = visibleDates.map((date) {
       final events = widget.eventsController.eventsFromDateTimeRange(
@@ -92,7 +92,7 @@ class _DayEventsWidgetState<T extends Object?> extends State<DayEventsWidget<T>>
         date,
         TimeOfDayRange.allDay(),
         0,
-      ).sortEvents(events) as List<CalendarEvent<T>>;
+      ).sortEvents(events) as List<T>;
       return MapEntry(date, sortedEvents);
     });
 

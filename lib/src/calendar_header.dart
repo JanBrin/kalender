@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
 import 'package:kalender/src/models/providers/calendar_provider.dart';
 
-class CalendarHeader<T extends Object?> extends StatelessWidget {
+class CalendarHeader<T extends CalendarEvent<T>> extends StatelessWidget {
   final EventsController<T>? eventsController;
   final CalendarController<T>? calendarController;
 

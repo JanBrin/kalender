@@ -79,7 +79,11 @@ class _HomePageState extends State<HomePage> with CalendarOverlay {
 
   late final callbacks = CalendarCallbacks<Event>(
     onEventTapped: (event, renderBox) => createOverlay(event, renderBox),
-    onEventCreate: (event) => event.copyWith(data: const Event(title: 'New Event')),
+    onEventCreate: (dateTimeRange) => Event(
+      dateTimeRange: dateTimeRange,
+      title: 'New Event',
+      color: Colors.blue,
+    ),
     onEventCreated: (event) => eventsController.addEvent(event),
   );
 

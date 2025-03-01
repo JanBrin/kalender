@@ -5,7 +5,7 @@ import 'package:kalender/src/models/mixins/calendar_navigation_functions.dart';
 /// A controller for calendar views.
 ///
 /// A view controller lets you control a calendar view.
-abstract class ViewController<T extends Object?> with CalendarNavigationFunctions<T> {
+abstract class ViewController<T extends CalendarEvent<T>> with CalendarNavigationFunctions<T> {
   /// The view configuration that will be used by the controller.
   ViewConfiguration get viewConfiguration;
 
@@ -13,7 +13,7 @@ abstract class ViewController<T extends Object?> with CalendarNavigationFunction
   ValueNotifier<DateTimeRange> get visibleDateTimeRange;
 
   /// The [CalendarEvent]s that are currently visible.
-  ValueNotifier<Set<CalendarEvent<T>>> get visibleEvents;
+  ValueNotifier<Set<T>> get visibleEvents;
 
   /// Jump to the given [DateTime].
   @override
@@ -53,7 +53,7 @@ abstract class ViewController<T extends Object?> with CalendarNavigationFunction
 
   @override
   Future<void> animateToEvent(
-    CalendarEvent<T> event, {
+    T event, {
     Duration? pageDuration,
     Curve? pageCurve,
     Duration? scrollDuration,
@@ -67,7 +67,7 @@ abstract class ViewController<T extends Object?> with CalendarNavigationFunction
   }
 }
 
-class MultiDayViewController<T extends Object?> extends ViewController<T> {
+class MultiDayViewController<T extends CalendarEvent<T>> extends ViewController<T> {
   MultiDayViewController({
     required this.viewConfiguration,
     required this.visibleDateTimeRange,
@@ -139,7 +139,7 @@ class MultiDayViewController<T extends Object?> extends ViewController<T> {
   final ValueNotifier<DateTimeRange> visibleDateTimeRange;
 
   @override
-  final ValueNotifier<Set<CalendarEvent<T>>> visibleEvents;
+  final ValueNotifier<Set<T>> visibleEvents;
 
   @override
   Future<void> animateToDate(
@@ -182,7 +182,7 @@ class MultiDayViewController<T extends Object?> extends ViewController<T> {
 
   @override
   Future<void> animateToEvent(
-    CalendarEvent<T> event, {
+    T event, {
     Duration? pageDuration,
     Curve? pageCurve,
     Duration? scrollDuration,
@@ -240,7 +240,7 @@ class MultiDayViewController<T extends Object?> extends ViewController<T> {
   }
 }
 
-class MonthViewController<T extends Object?> extends ViewController<T> {
+class MonthViewController<T extends CalendarEvent<T>> extends ViewController<T> {
   MonthViewController({
     required this.viewConfiguration,
     required this.visibleDateTimeRange,
@@ -271,7 +271,7 @@ class MonthViewController<T extends Object?> extends ViewController<T> {
   late final ValueNotifier<DateTimeRange> visibleDateTimeRange;
 
   @override
-  late final ValueNotifier<Set<CalendarEvent<T>>> visibleEvents;
+  late final ValueNotifier<Set<T>> visibleEvents;
 
   @override
   Future<void> animateToDate(
@@ -304,7 +304,7 @@ class MonthViewController<T extends Object?> extends ViewController<T> {
 
   @override
   Future<void> animateToEvent(
-    CalendarEvent<T> event, {
+    T event, {
     Duration? pageDuration,
     Curve? pageCurve,
     Duration? scrollDuration,
