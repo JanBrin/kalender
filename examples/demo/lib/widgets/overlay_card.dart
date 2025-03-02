@@ -76,7 +76,7 @@ class _OverlayCardState extends State<OverlayCard> {
                     if (date == null) return;
 
                     final newRange = DateTimeRange(start: date, end: event.endAsUtc);
-                    final updatedEvent = event.copyWith(dateTimeRange: newRange);
+                    final updatedEvent = event.updateDateTimeRange(dateTimeRange: newRange);
                     widget.eventsController.updateEvent(event: event, updatedEvent: updatedEvent);
                     setState(() => event = updatedEvent);
                   },
@@ -90,7 +90,7 @@ class _OverlayCardState extends State<OverlayCard> {
                     if (start.isAfter(event.endAsUtc) || start == event.endAsUtc) return;
 
                     final newRange = DateTimeRange(start: start, end: event.endAsUtc);
-                    final updatedEvent = event.copyWith(dateTimeRange: newRange);
+                    final updatedEvent = event.updateDateTimeRange(dateTimeRange: newRange);
                     widget.eventsController.updateEvent(event: event, updatedEvent: updatedEvent);
                     setState(() => event = updatedEvent);
                   },
@@ -109,7 +109,7 @@ class _OverlayCardState extends State<OverlayCard> {
                     if (date == null) return;
 
                     final newRange = DateTimeRange(start: event.startAsUtc, end: date);
-                    final updatedEvent = event.copyWith(dateTimeRange: newRange);
+                    final updatedEvent = event.updateDateTimeRange(dateTimeRange: newRange);
                     widget.eventsController.updateEvent(event: event, updatedEvent: updatedEvent);
                     setState(() => event = updatedEvent);
                   },
@@ -123,7 +123,7 @@ class _OverlayCardState extends State<OverlayCard> {
                     if (end.isBefore(event.startAsUtc) || end == event.startAsUtc) return;
 
                     final newRange = DateTimeRange(start: event.startAsUtc, end: end);
-                    final updatedEvent = event.copyWith(dateTimeRange: newRange);
+                    final updatedEvent = event.updateDateTimeRange(dateTimeRange: newRange);
                     widget.eventsController.updateEvent(event: event, updatedEvent: updatedEvent);
                     setState(() => event = updatedEvent);
                   },

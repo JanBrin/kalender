@@ -24,14 +24,17 @@ class Event extends CalendarEvent<Event> {
   final String title;
   final Color? color;
 
-  Event(this.title, this.color, {required super.dateTimeRange});
+  Event(this.title, this.color, {required this.dateTimeRange});
+
+  @override
+  final DateTimeRange dateTimeRange;
 
   @override
   bool get canModify => true;
-
+  
   @override
-  Event copyWith({DateTimeRange? dateTimeRange}) {
-    return Event(title, color, dateTimeRange: dateTimeRange ?? super.dateTimeRange);
+  Event updateDateTimeRange({required DateTimeRange dateTimeRange}) {
+    return Event(title, color, dateTimeRange: dateTimeRange);
   }
 }
 

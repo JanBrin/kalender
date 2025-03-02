@@ -22,7 +22,7 @@ class RecurringCalendarEvent<Event> extends CalendarEvent<Event> {
 
   /// Copy the [CalendarEvent] with the new values.
   @override
-  RecurringCalendarEvent<Event> copyWith({
+  RecurringCalendarEvent<Event> updateDateTimeRange({
     DateTimeRange? dateTimeRange,
     Event? data,
     bool? canModify,

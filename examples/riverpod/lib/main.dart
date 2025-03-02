@@ -21,14 +21,17 @@ class MyApp extends StatelessWidget {
 }
 
 class Event extends CalendarEvent<Event> {
-  Event({required super.dateTimeRange});
+  Event({required this.dateTimeRange});
+
+  @override
+  final DateTimeRange dateTimeRange;
 
   @override
   bool get canModify => true;
 
   @override
-  Event copyWith({DateTimeRange? dateTimeRange}) {
-    return Event(dateTimeRange: dateTimeRange ?? this.dateTimeRange);
+  Event updateDateTimeRange({required DateTimeRange dateTimeRange}) {
+    return Event(dateTimeRange: dateTimeRange);
   }
 }
 

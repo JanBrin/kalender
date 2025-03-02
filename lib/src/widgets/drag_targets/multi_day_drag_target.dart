@@ -152,7 +152,7 @@ class _MultiDayDragTargetState<T extends CalendarEvent<T>> extends State<MultiDa
     final newRange = DateTimeRange(start: newStartTime, end: endTime);
 
     // Update the event with the new start time.
-    final updatedEvent = event.copyWith(dateTimeRange: newRange);
+    final updatedEvent = event.updateDateTimeRange(dateTimeRange: newRange);
 
     return updatedEvent;
   }
@@ -165,7 +165,7 @@ class _MultiDayDragTargetState<T extends CalendarEvent<T>> extends State<MultiDa
       _ => null
     };
     if (range == null) return null;
-    return event.copyWith(dateTimeRange: range);
+    return event.updateDateTimeRange(dateTimeRange: range);
   }
 
   @override
@@ -182,6 +182,6 @@ class _MultiDayDragTargetState<T extends CalendarEvent<T>> extends State<MultiDa
       range = DateTimeRange(start: cursorDateTime, end: range.start.endOfDay);
     }
 
-    return event.copyWith(dateTimeRange: range);
+    return event.updateDateTimeRange(dateTimeRange: range);
   }
 }

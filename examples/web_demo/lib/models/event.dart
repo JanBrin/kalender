@@ -6,7 +6,7 @@ class Event extends CalendarEvent<Event> {
     required this.title,
     this.description,
     this.color,
-    required super.dateTimeRange,
+    required this.dateTimeRange,
   });
 
   /// The title of the [Event].
@@ -19,6 +19,11 @@ class Event extends CalendarEvent<Event> {
   final Color? color;
 
   @override
+  final DateTimeRange dateTimeRange;
+
+  @override
+  bool get canModify => true;
+
   Event copyWith({
     String? title,
     String? description,
@@ -34,5 +39,7 @@ class Event extends CalendarEvent<Event> {
   }
 
   @override
-  bool get canModify => true;
+  Event updateDateTimeRange({required DateTimeRange dateTimeRange}) {
+    return copyWith(dateTimeRange: dateTimeRange);
+  }
 }

@@ -172,7 +172,7 @@ class Recurrence {
 
     final results = <(CalendarEvent, RecurringCalendarEvent)>[];
     for (var (index, event) in events.indexed) {
-      final updatedEvent = event.copyWith(dateTimeRange: recurrences[index]);
+      final updatedEvent = event.updateDateTimeRange(dateTimeRange: recurrences[index]);
       results.add((event, updatedEvent));
     }
 

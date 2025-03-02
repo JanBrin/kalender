@@ -33,7 +33,7 @@ class Resize<T extends CalendarEvent<T>> {
   Resize<T> updateDateTimeRange(
     DateTimeRange dateTimeRange,
   ) {
-    final updatedEvent = event.copyWith(dateTimeRange: dateTimeRange);
+    final updatedEvent = event.updateDateTimeRange(dateTimeRange: dateTimeRange);
     return Resize<T>(event: updatedEvent, direction: direction);
   }
 }
