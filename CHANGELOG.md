@@ -1,3 +1,14 @@
+## 0.5.5
+
+### Breaking changes:
+
+- The [CalendarEvent] has been converted into a abstract class and now requires you to extend your own class with it.
+  - Migration TODO: 
+
+### What's new
+
+- A lot of unit tests.
+
 ## 0.5.0
 
 ### Breaking changes:
