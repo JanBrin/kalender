@@ -30,7 +30,7 @@ class Event extends CalendarEvent<Event> {
   bool get canModify => true;
 
   @override
-  Event updateRange({DateTimeRange? dateTimeRange}) {
+  Event copyWith({DateTimeRange? dateTimeRange}) {
     return Event(title, color, dateTimeRange: dateTimeRange ?? super.dateTimeRange);
   }
 }
