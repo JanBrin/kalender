@@ -184,6 +184,7 @@ class OverlapLayoutDelegate extends EventLayoutDelegate {
 
   @override
   void performLayout(Size size) {
+    print('$date : ${events.length}');
     // Calculate the vertical layout data.
     final verticalLayoutData = calculateVerticalLayoutData();
 
