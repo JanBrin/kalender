@@ -18,7 +18,7 @@ typedef OnEventChanged<T extends Object?> = void Function(T event, T updatedEven
 
 /// The call back for creating a new event.
 ///
-/// [event] is the event that will be created.
+/// [dateTimeRange] is the range of the new event.
 typedef OnEventCreate<T extends CalendarEvent<T>> = T? Function(DateTimeRange dateTimeRange);
 
 /// The callback for a new event has been created.
@@ -36,6 +36,7 @@ typedef OnPageChanged = void Function(DateTimeRange visibleDateTimeRange);
 /// - These callbacks are used to notify the parent widget of events that occur in the [CalendarView].
 class CalendarCallbacks<T extends CalendarEvent<T>> {
   final OnEventTapped<T>? onEventTapped;
+  // TODO: maybe rename to event builder ?
   final OnEventCreate<T> onEventCreate;
   final OnEventCreated<T>? onEventCreated;
   final OnEventChange<T>? onEventChange;

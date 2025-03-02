@@ -24,51 +24,17 @@ Try it out [here](https://werner-scholtz.github.io/kalender/)
 
 * **Views:** Add Schedule and FreeScroll, improvements to the Month view.
 * **Directionality:** Right to Left directionality.
-* **Repeating Events:** Repeating events that only have to be added once.
+* **Repeating Events:** Repeating events that only have to be added once. (in example form)
 
 ### Examples
 
-* **Event layout:** Examples of how to leverage this to achieve specific tasks.
+* **Event layout:** Examples of how to leverage this to achieve specific event layouts.
 
-## Basic Usage
+## Quick Start:
 
-A minimal example to get you started:
-
-```dart
-final eventsController = EventsController();
-final calendarController = CalendarController();
-final tileComponents = TileComponents(
-  tileBuilder: (event) => Container(color: Colors.green),
-);
-
-/// Add a [CalendarEvent] to the [EventsController].
-void addEvents() {
-  eventsController.addEvent(CalendarEvent(
-    dateTimeRange: DateTimeRange(start: now, end: now.add(const Duration(hours: 1))),
-    data: "Event 1",
-  ));
-}
-
-Widget build(BuildContext context) {  
-  return CalendarView(
-    eventsController: eventsController,
-    calendarController: calendarController,
-    viewConfiguration: MultiDayViewConfiguration.singleDay(),
-    callbacks: CalendarCallbacks(
-      onEventTapped: (event, renderBox) => controller.selectEvent(event),
-      onEventCreate: (event) => event.copyWith(data: "Some data"),
-      onEventCreated: (event) => eventsController.addEvent(event),
-    ),
-    header: CalendarHeader(
-      multiDayTileComponents: tileComponents,
-    ),
-    body: CalendarBody(
-      multiDayTileComponents: tileComponents,
-      monthTileComponents: tileComponents,
-    ),
-  );
-}
-```
+* **Basic Example:** Example of the most basic calendar.
+* **Thorough Example:** Example of a fully customized calendar.
+* **Riverpod Example:** Example of how to use with Riverpod.
 
 ## Views
 
@@ -113,8 +79,11 @@ It has a few functions to manipulate events:
 - `addEvent` Add a new event.
 - `addEvents` Add multiple new events.
 - `removeEvent` Remove a event.
+- `removeById` Remove a event by it's id.
 - `removeWhere` Remove events where they match a test case.
 - `updateEvent` Updates an event.
+- `eventById` Get an event by it's id.
+- `idByEvent` Get an id by it's event.
 - `clearEvents` Clear all the stored events.
 
 ### CalendarController
@@ -124,6 +93,7 @@ The [CalendarController](https://github.com/werner-scholtz/kalender/blob/d79a8ea
 It exposes details about what the widget is displaying.
 
 - `visibleDateTimeRange`: A `ValueNotifier` containing the `DateTimeRange` that is currently visible.
+  -  Note: This valuenotifier is updated when a Calendar Widget is initialized for the first time, you should take care when listening to it from widgets above it in the widget tree.
 - `visibleEvents`: A `ValueNotifier` that contains the `CalendarEvent`s that are currently visible. 
 - `selectedEvent`: A `ValueNotifier` that contains the selected `CalendarEvent`.
 
@@ -156,12 +126,11 @@ The calendar has a few useful callback functions, which can change how interacti
   ```dart
   CalendarCallbacks(
     // Called when an event is tapped.
-    onEventTapped: (event, renderBox) {},
+    onEventTapped: (id, event, renderBox) {},
 
-    // Called when an event is about to be created.
-    onEventCreate: (event) {
-      // This allows you to modify the event before it is created.
-      return event.copyWith(data: data);
+    // Called when a new event is created.
+    onEventCreate: (datetimeRange) {
+      return MyEvent(dateTimeRange: dateTimeRange);
     }
     
     // Called when a new event has been created.

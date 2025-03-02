@@ -49,12 +49,6 @@ class EventsController<T extends CalendarEvent<T>> with ChangeNotifier {
     notifyListeners();
   }
 
-  /// Removes all [CalendarEvent]'s.
-  void clearEvents() {
-    _eventLookUp.clear();
-    notifyListeners();
-  }
-
   /// Updates an [CalendarEvent].
   ///
   /// The [event] is the event that needs to be changed.
@@ -69,7 +63,15 @@ class EventsController<T extends CalendarEvent<T>> with ChangeNotifier {
 
   /// Retrieve a [CalendarEvent] by it's id if it exists.
   T? eventById(int id) => _eventLookUp.getEventById(id);
+
+  /// Retrieve an id by the [CalendarEvent] if it exists.
   int idByEvent(T event) => _eventLookUp.getIdByEvent(event) ?? -1;
+
+  /// Removes all [CalendarEvent]'s.
+  void clearEvents() {
+    _eventLookUp.clear();
+    notifyListeners();
+  }
 
   /// Finds the [CalendarEvent]s that occur during the [dateTimeRange].
   Iterable<T> eventsFromDateTimeRange(
