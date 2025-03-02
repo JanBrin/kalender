@@ -18,18 +18,21 @@ Try it out [here](https://werner-scholtz.github.io/kalender/)
 * **Appearance:** Customize the default components or provide custom builders. [find out more](#general-components)
 * **Event layout:** Use a provided layout strategy or create a custom one. [find out more](#event-layout)
 
-## Plans
+## Current Goals
+
+### Tests
+
+* **Integration Tests** Create integration tests to prevent regressions.
 
 ### Features 
 
-* **Views:** Add Schedule and FreeScroll, improvements to the Month view.
 * **Directionality:** Right to Left directionality.
-* **Repeating Events:** Repeating events that only have to be added once. (in example form)
+* **Views:** Add Schedule and FreeScroll, improvements to the Month view.
 
 ### Examples
 
+* **Repeating Events:** Repeating events that only have to be added once. (in example form)
 * **Event layout:** Examples of how to leverage this to achieve specific event layouts.
-
 ## Quick Start:
 
 * **Basic Example:** Example of the most basic calendar.
