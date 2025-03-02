@@ -50,7 +50,7 @@ class HomeScreen extends ConsumerWidget {
         calendarController: view.controller,
         viewConfiguration: view.viewConfiguration,
         callbacks: CalendarCallbacks(
-          onEventTapped: (event, renderBox) => view.controller.selectEvent(event),
+          onEventTapped: (id, event, renderBox) => view.controller.selectEvent(id, event),
           onEventCreate: (dateTimeRange) => Event(dateTimeRange: dateTimeRange),
           onEventCreated: (event) => eventsController.addEvent(event),
         ),

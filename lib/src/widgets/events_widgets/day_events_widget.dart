@@ -47,6 +47,8 @@ class DayEventsWidget<T extends CalendarEvent<T>> extends StatefulWidget {
 }
 
 class _DayEventsWidgetState<T extends CalendarEvent<T>> extends State<DayEventsWidget<T>> {
+  EventsController<T> get eventsController => widget.eventsController;
+
   /// The visible events value notifier.
   ValueNotifier<Set<T>> get visibleEvents => widget.controller.visibleEvents;
 
@@ -153,7 +155,8 @@ class _DayEventsWidgetState<T extends CalendarEvent<T>> extends State<DayEventsW
             final events = visibleEvents.toList();
 
             // Find the index of the selected event.
-            final index = visibleEvents.indexWhere((e) => e.id == widget.controller.selectedEventId);
+            final index =
+                visibleEvents.indexWhere((e) => eventsController.idByEvent(e) == widget.controller.selectedEventId);
             if (index != -1) {
               // If it exists override it with the selectedEvent.
               events[index] = event;
@@ -169,8 +172,8 @@ class _DayEventsWidgetState<T extends CalendarEvent<T>> extends State<DayEventsW
               children: events.indexed.map(
                 (item) {
                   final event = item.$2;
-                  final drawTile =
-                      dropTarget != null && (event.id == -1 || event.id == widget.controller.selectedEventId);
+                  final id = eventsController.idByEvent(event);
+                  final drawTile = dropTarget != null && (id == -1 || id == widget.controller.selectedEventId);
 
                   return LayoutId(
                     id: item.$1,

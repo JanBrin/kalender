@@ -12,7 +12,8 @@ import 'package:kalender/src/models/mixins/new_event.dart';
 /// The [CalendarView] attaches itself to the [CalendarController] by calling [attach].
 /// And detaches itself by calling [detach].
 ///
-class CalendarController<T extends CalendarEvent<T>> extends ChangeNotifier with CalendarNavigationFunctions<T>, NewEvent<T> {
+class CalendarController<T extends CalendarEvent<T>> extends ChangeNotifier
+    with CalendarNavigationFunctions<T>, NewEvent<T> {
   CalendarController({DateTime? initialDate})
       : initialDate = initialDate ?? DateTime.now(),
         id = DateTime.now().millisecondsSinceEpoch;
@@ -46,9 +47,9 @@ class CalendarController<T extends CalendarEvent<T>> extends ChangeNotifier with
   ///
   /// [event] the event to focus on.
   /// [internal] leave false if not called from within the package.
-  void selectEvent(T event, {bool internal = false}) {
+  void selectEvent(int id, T event, {bool internal = false}) {
     selectedEvent.value = event;
-    _selectedEventId = event.id;
+    _selectedEventId = id;
     _internalFocus = internal;
   }
 

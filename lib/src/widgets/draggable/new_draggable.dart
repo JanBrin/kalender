@@ -20,7 +20,7 @@ abstract class NewDraggableWidget<T extends CalendarEvent<T>> extends StatelessW
     final event = callbacks?.onEventCreate.call(dateTimeRange);
     if (event == null) return;
     controller.setNewEvent(event);
-    controller.selectEvent(event);
+    controller.selectEvent(-1, event);
   }
 
   /// Deselect the new event.

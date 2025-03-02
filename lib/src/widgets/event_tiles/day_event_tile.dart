@@ -72,7 +72,7 @@ class DayEventTile<T extends CalendarEvent<T>> extends EventTile<T> {
 
     final tile = tileBuilder.call(event, localDateTimeRange);
     final tileWhenDragging = tileWhenDraggingBuilder?.call(event);
-    final isDragging = controller.selectedEventId == event.id && controller.internalFocus;
+    final isDragging = controller.selectedEventId == eventsController.idByEvent(event) && controller.internalFocus;
     late final draggable = isMobileDevice
         ? LongPressDraggable<Reschedule<T>>(
             data: rescheduleEvent,
@@ -97,7 +97,7 @@ class DayEventTile<T extends CalendarEvent<T>> extends EventTile<T> {
           ? () {
               // Find the global position and size of the tile.
               final renderObject = context.findRenderObject()! as RenderBox;
-              onEventTapped!.call(event, renderObject);
+              onEventTapped!.call(eventsController.idByEvent(event), event, renderObject);
             }
           : null,
       child: canReschedule ? draggable : tile,

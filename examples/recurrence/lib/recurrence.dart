@@ -41,7 +41,7 @@ class RecurrenceController {
     groups.update(groupId, (e) => e.copyWith(recurrence: updatedRecurrence));
 
     // Grab all the existing events so they can be rescheduled.
-    final events = group.eventIds.map((id) => controller.byId(id)! as RecurringCalendarEvent).toList();
+    final events = group.eventIds.map((id) => controller.eventById(id)! as RecurringCalendarEvent).toList();
 
     // Update the events.
     final updates = updatedRecurrence.updateEvents(groupId, events);

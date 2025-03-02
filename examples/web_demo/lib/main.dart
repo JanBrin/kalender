@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   late final _calendarCallbacks = CalendarCallbacks<Event>(
-    onEventTapped: (event, renderBox) => _createOverlay(event, renderBox),
+    onEventTapped: (id, event, renderBox) => _createOverlay(event, renderBox),
     onEventCreate: (dateTimeRange) => Event(title: 'New Event', dateTimeRange: dateTimeRange),
     onEventCreated: (event) => eventsController.addEvent(event),
   );

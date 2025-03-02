@@ -64,7 +64,7 @@ abstract class EventTile<T extends CalendarEvent<T>> extends StatelessWidget {
   Resize<T> resizeEvent(ResizeDirection direction) => Resize<T>(event: event, direction: direction);
 
   void selectEvent() {
-    controller.selectEvent(event, internal: true);
+    controller.selectEvent(eventsController.idByEvent(event), event, internal: true);
     callbacks?.onEventChange?.call(event);
   }
 }

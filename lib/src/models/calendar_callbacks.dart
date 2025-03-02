@@ -5,7 +5,7 @@ import 'package:kalender/kalender.dart';
 ///
 /// The [event] is the event that was tapped.
 /// The [renderBox] is the [RenderBox] of the event tile.
-typedef OnEventTapped<T extends Object?> = void Function(T event, RenderBox renderBox);
+typedef OnEventTapped<T extends Object?> = void Function(int id, T event, RenderBox renderBox);
 
 /// The callback for when an event is about to be changed.
 typedef OnEventChange<T extends Object?> = void Function(T event);

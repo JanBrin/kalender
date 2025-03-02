@@ -6,7 +6,7 @@ import 'package:kalender/src/platform.dart';
 import 'package:kalender/src/widgets/event_tiles/event_tile.dart';
 
 /// This widget renders the tile widget and resize handles in a stack.
-/// 
+///
 /// The tile widget is rendered below the resize handles.
 class MultiDayEventTile<T extends CalendarEvent<T>> extends EventTile<T> {
   const MultiDayEventTile({
@@ -61,7 +61,7 @@ class MultiDayEventTile<T extends CalendarEvent<T>> extends EventTile<T> {
 
     final tile = tileBuilder.call(event, localDateTimeRange);
     final tileWhenDragging = tileWhenDraggingBuilder?.call(event);
-    final isDragging = controller.selectedEventId == event.id;
+    final isDragging = controller.selectedEventId == eventsController.idByEvent(event);
     late final draggableTile = isMobileDevice
         ? LongPressDraggable<Reschedule<T>>(
             data: rescheduleEvent,
@@ -86,7 +86,7 @@ class MultiDayEventTile<T extends CalendarEvent<T>> extends EventTile<T> {
           ? () {
               // Find the global position and size of the tile.
               final renderObject = context.findRenderObject()! as RenderBox;
-              onEventTapped!.call(event, renderObject);
+              onEventTapped!.call(eventsController.idByEvent(event), event, renderObject);
             }
           : null,
       child: canReschedule ? draggableTile : tile,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender_extensions.dart';
 
-
 /// A class representing a object that can be displayed by the calendar.
-/// 
+///
 /// A calendar event requires a [DateTimeRange] this is used by the [CalendarView] to render the event.
 /// It also requires a [canModify] property that determines if the event can be modified.
+@immutable
 abstract class CalendarEvent<T> with EventUtils {
   @override
   final DateTimeRange dateTimeRange;
@@ -46,14 +46,14 @@ mixin EventUtils {
   /// The [DateTime]s that the [CalendarEvent] spans. This uses utc time.
   List<DateTime> get datesSpanned => dateTimeRangeAsUtc.dates();
 
-  /// The id of the [CalendarEvent].
-  /// Do not set this value manually as this is set by the [EventsController].
-  int _id = -1;
-  int get id => _id;
-  set id(int value) {
-    if (_id != -1) return;
-    _id = value;
-  }
+  // /// The id of the [CalendarEvent].
+  // /// Do not set this value manually as this is set by the [EventsController].
+  // int _id = -1;
+  // int get id => _id;
+  // set id(int value) {
+  //   if (_id != -1) return;
+  //   _id = value;
+  // }
 }
 
 /// TODO: consider a abstract class for CalendarEvent that needs to be implemented by users.

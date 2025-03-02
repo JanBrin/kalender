@@ -47,7 +47,8 @@ class MultiDayDragTarget<T extends CalendarEvent<T>> extends StatefulWidget {
   State<MultiDayDragTarget<T>> createState() => _MultiDayDragTargetState<T>();
 }
 
-class _MultiDayDragTargetState<T extends CalendarEvent<T>> extends State<MultiDayDragTarget<T>> with DragTargetUtilities<T> {
+class _MultiDayDragTargetState<T extends CalendarEvent<T>> extends State<MultiDayDragTarget<T>>
+    with DragTargetUtilities<T> {
   @override
   EventsController<T> get eventsController => widget.eventsController;
   @override
@@ -82,7 +83,7 @@ class _MultiDayDragTargetState<T extends CalendarEvent<T>> extends State<MultiDa
             if (!widget.allowSingleDayEvents && !event.isMultiDayEvent) return false;
             // Set the size of the feedback widget.
             feedbackWidgetSize.value = Size(min(pageWidth, dayWidth * event.datesSpanned.length), tileHeight);
-            controller.selectEvent(event, internal: true);
+            controller.selectEvent(eventsController.idByEvent(event), event, internal: true);
             return true;
           },
         );

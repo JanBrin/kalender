@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
         viewConfiguration: viewConfiguration,
         // Handle the callbacks made by the calendar.
         callbacks: CalendarCallbacks<Event>(
-          onEventTapped: (event, renderBox) => calendarController.selectEvent(event),
+          onEventTapped: (id, event, renderBox) => calendarController.selectEvent(id, event),
           onEventCreate: (dateTimeRange) => Event('New Event', color, dateTimeRange: dateTimeRange),
           onEventCreated: (event) => eventsController.addEvent(event),
         ),

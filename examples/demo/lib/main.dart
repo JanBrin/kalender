@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> with CalendarOverlay {
   late final eventsController = App.eventsController(context);
 
   late final callbacks = CalendarCallbacks<Event>(
-    onEventTapped: (event, renderBox) => createOverlay(event, renderBox),
+    onEventTapped: (id, event, renderBox) => createOverlay(event, renderBox),
     onEventCreate: (dateTimeRange) => Event(
       dateTimeRange: dateTimeRange,
       title: 'New Event',

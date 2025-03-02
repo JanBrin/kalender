@@ -134,7 +134,7 @@ class _DayDragTargetState<T extends CalendarEvent<T>> extends State<DayDragTarge
             // Set the size of the feedback widget.
             feedbackWidgetSize.value = Size(dayWidth, eventHeight);
             // Select the event as an internal one.
-            controller.selectEvent(event, internal: true);
+            controller.selectEvent(eventsController.idByEvent(event), event, internal: true);
             return true;
           },
         );
